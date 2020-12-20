@@ -1,6 +1,7 @@
 
 a = 1
 
+
 def my_test():
     print('my function')
 

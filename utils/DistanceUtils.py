@@ -6,10 +6,10 @@ EARTH_RADIUS = 6378.137
 def get_distance(longitude1, latitude1, longitude2, latitude2):
     # 维度
     lat1 = math.radians(latitude1)  # 角度转换为弧度
-    lat2 = math.radians(latitude2)
+    lat2 = math.radians(latitude2)  # 角度转换为弧度
     # 经度
-    lng1 = math.radians(longitude1)
-    lng2 = math.radians(longitude2)
+    lng1 = math.radians(longitude1)     # 角度转换为弧度
+    lng2 = math.radians(longitude2)     # 角度转换为弧度
     # 维度之差
     a = lat1 - lat2
     b = lng1 - lng2
@@ -24,8 +24,8 @@ def get_distance(longitude1, latitude1, longitude2, latitude2):
 
 # 计算两点之间的距离， 根据两点之间的经纬度
 if __name__ == '__main__':
-    count = get_distance(116.446227, 40.076773, 116.473478, 40.025913)
-    print(count)
+    count = get_distance(122.446227, 43.090173, 116.473478, 40.025913)
+    print('两点之间的距离是:', "%.3f" % count, '米')  # 保留三位小数点
 
 
 class distance_location:

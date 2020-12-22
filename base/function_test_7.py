@@ -12,5 +12,5 @@ class Student:
         print(self.name, '的分数是:', self.score)
 
 
-s1 = Student('王二狗', 93)
-s1.say_score()
+student = Student('王二狗', 93)
+student.say_score()

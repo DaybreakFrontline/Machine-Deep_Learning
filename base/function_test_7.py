@@ -24,7 +24,7 @@ class Student:
         print(cls.count)
 
     def __str__(self):
-        return self.name, self.age
+        return "name %s, age %s" % (self.name, self.age)
 
 
 if __name__ == '__main__':
@@ -36,5 +36,5 @@ if __name__ == '__main__':
     print(Student.company, Student.count)
     Student.print_information()
 
-    print(Student)
+    print(student)
 

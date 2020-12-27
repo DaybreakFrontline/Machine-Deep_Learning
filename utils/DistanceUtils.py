@@ -2,6 +2,7 @@ import math
 # 地球半径， 单位KM
 EARTH_RADIUS = 6378.137
 
+
 # longitude1 第一个点经度， latitude1 第一个点纬度， longitude2第二个点经度， 第二个点纬度
 def get_distance(longitude1, latitude1, longitude2, latitude2):
     # 维度

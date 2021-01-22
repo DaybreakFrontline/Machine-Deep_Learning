@@ -12,8 +12,8 @@
 会改变世界'一样。
 
 AI方向的python可能会和JAVA后端的调包侠不太一样，这个阶段，我要去接触更多的数学上的东西，甚至去改一些模型或者手搓一些
-算法。我在此处像引用肯尼迪在We choose to go to the moon.演讲中的一句话: 
-                   “not because they are easy, but because they are hard”
+算法。在此处引用肯尼迪在We choose to go to the moon.演讲中的一句话: 
+                   “not because they are easy, but because they are hard”。                 
                    
 是的，这个东西的难易程度确实要比我之前经历的一些学习更加有挑战性，而且是否会有结果，也不得而知，但是我的信条就是
                     “尽最大的努力，做最坏的打算”

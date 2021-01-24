@@ -4,7 +4,7 @@ from sklearn.preprocessing import PolynomialFeatures
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error
 
-# 多项式回归
+# 多项式回归  升维度
 
 np.random.seed(42)
 m = 130

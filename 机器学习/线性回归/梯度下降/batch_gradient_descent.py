@@ -4,7 +4,7 @@ import numpy as np
 # 创建数据集 X, y    有监督机器学习
 X = np.random.rand(100, 1)
 y = 9 + 3 * X + np.random.randn(100, 1)
-X_b = np.c_[np.ones((100, 1)), X]
+X_b = np.c_[np.ones((100, 1)), X]   # 添加x0
 
 # 创建超参数
 # learning_rate = 0.01    # 学习率   # 改为动态，去掉

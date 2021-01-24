@@ -6,7 +6,7 @@ print(X.shape)
 y = 9 + 3*X + np.random.rand(100, 1)    # m行1列
 print(y.shape)
 # 截距项
-X_b = np.c_[np.ones((100, 1)), X]   # 100行2列
+X_b = np.c_[np.ones((100, 1)), X]   # 100行2列    # 添加x0
 
 # 设置超参数
 n_epochs = 1000    # 迭代轮次

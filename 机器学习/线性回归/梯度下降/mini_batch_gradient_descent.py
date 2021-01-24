@@ -10,7 +10,7 @@ def default(x_count):
 X = 2 * np.random.rand(100, 1)     # 100行1列
 y = 9 + 3*X + np.random.rand(100, 1)    # 100行1列    # 真实的y
 
-X_b = np.c_[np.ones((100, 1)), X]       # 截距项 x0    100行2列  把np.ones和X拼接到一起
+X_b = np.c_[np.ones((100, 1)), X]       # 截距项 x0    100行2列  把np.ones和X拼接到一起     # 添加x0
 print(X_b.shape)
 print(X.shape[0])
 

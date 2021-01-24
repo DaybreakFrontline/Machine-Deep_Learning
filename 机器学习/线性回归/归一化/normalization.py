@@ -21,6 +21,6 @@ if __name__ == '__main__':
     scaler.fit(data)
     print(scaler.mean_)
     print(scaler.var_)
-    # 做完归一化之后，大大的算小了数据之间的距离
+    # 做完归一化之后，大大的缩小了数据之间的距离
     data = scaler.transform(data)
     print(data)

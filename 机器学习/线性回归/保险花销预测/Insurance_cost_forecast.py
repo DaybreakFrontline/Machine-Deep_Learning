@@ -2,6 +2,12 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import Ridge
+from sklearn.metrics import mean_squared_error
+from sklearn.ensemble import GradientBoostingRegressor  # 梯度提升 基于决策树 用来拟合非线性数据
 # %matplotlib inline    这一行是jupyter编辑器里边需要加上的，pycharm是不用加的
 
 # 这三行是为了让控制台的输出不显示省略号
@@ -34,5 +40,63 @@ x.fillna(0, inplace=True)               # 空的字段填充0
 y.fillna(0, inplace=True)               # 空的字段填充0
 
 # 区分训练集和测试集
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3)   # 30%的数据作为测试集数据
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.4)   # 30%的数据作为测试集数据
 # 用x_train和y_train训练模型，x_test和y_test测试模型
+
+# 归一化   scaled adj. 等比例缩小的
+scaler = StandardScaler(with_mean=True, with_std=True).fit(x_train)
+x_train_scaled = scaler.transform(x_train)
+x_test_scaled = scaler.transform(x_test)
+print(x_train_scaled)
+
+# 多项式回归     # 这里用2阶  要小心过拟合
+poly_features = PolynomialFeatures(degree=2, include_bias=False)
+# 将训练集和测试机都进行多项式回归，升2阶
+x_train_scaled = poly_features.fit_transform(x_train_scaled)
+x_test_scaled = poly_features.fit_transform(x_test_scaled)
+
+# 模型训练  # 线性回归
+reg = LinearRegression()    # 线性回归
+reg.fit(x_train_scaled, np.log1p(y_train))    # log1p是log的优化
+y_predict = reg.predict(x_test_scaled)  # 预测    # y_predict是对测试集的预测结果
+
+ridge = Ridge()   # Ridge 岭回归的归一化
+ridge.fit(x_train_scaled, np.log1p(y_train))
+y_predict_ridge = ridge.predict(x_test_scaled)
+
+booster = GradientBoostingRegressor()   # Ridge 岭回归的归一化
+booster.fit(x_train_scaled, np.log1p(y_train))
+y_predict_booster = booster.predict(x_test_scaled)
+
+# 模型评估      # 把训练集的实际结果和训练集的预测结果传进来 做MSE评估  然后开根号
+log_rmse_train = np.sqrt(mean_squared_error(y_true=np.log1p(y_train), y_pred=reg.predict(x_train_scaled)))
+log_rmse_test = np.sqrt(mean_squared_error(y_true=np.log1p(y_test), y_pred=y_predict))
+print('LinearRegression log 训练集MSE:', log_rmse_train)
+print('LinearRegression log 测试集MSE:', log_rmse_test)
+# 注意区分上下两种的写法
+rmse_train = np.sqrt(mean_squared_error(y_true=y_train, y_pred=np.exp(reg.predict(x_train_scaled))))
+rmse_test = np.sqrt(mean_squared_error(y_true=y_test, y_pred=np.exp(reg.predict(x_test_scaled))))
+print('LinearRegression 训练集MSE:', rmse_train)
+print('LinearRegression 测试集MSE:', rmse_test)
+print('*************************************')
+log_rmse_train = np.sqrt(mean_squared_error(y_true=np.log1p(y_train), y_pred=ridge.predict(x_train_scaled)))
+log_rmse_test = np.sqrt(mean_squared_error(y_true=np.log1p(y_test), y_pred=y_predict_ridge))
+print('ridge log 训练集MSE:', log_rmse_train)
+print('ridge log 测试集MSE:', log_rmse_test)
+# 注意区分上下两种的写法
+rmse_train = np.sqrt(mean_squared_error(y_true=y_train, y_pred=np.exp(ridge.predict(x_train_scaled))))
+rmse_test = np.sqrt(mean_squared_error(y_true=y_test, y_pred=np.exp(ridge.predict(x_test_scaled))))
+print('ridge 训练集MSE:', rmse_train)
+print('ridge 测试集MSE:', rmse_test)
+print('*************************************')
+log_rmse_train = np.sqrt(mean_squared_error(y_true=np.log1p(y_train), y_pred=booster.predict(x_train_scaled)))
+log_rmse_test = np.sqrt(mean_squared_error(y_true=np.log1p(y_test), y_pred=y_predict_booster))
+print('booster log 训练集MSE:', log_rmse_train)
+print('booster log 测试集MSE:', log_rmse_test)
+# 注意区分上下两种的写法
+rmse_train = np.sqrt(mean_squared_error(y_true=y_train, y_pred=np.exp(booster.predict(x_train_scaled))))
+rmse_test = np.sqrt(mean_squared_error(y_true=y_test, y_pred=np.exp(booster.predict(x_test_scaled))))
+print('booster 训练集MSE:', rmse_train)
+print('booster 测试集MSE:', rmse_test)
+
+

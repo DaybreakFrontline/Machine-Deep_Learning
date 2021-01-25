@@ -99,4 +99,3 @@ rmse_test = np.sqrt(mean_squared_error(y_true=y_test, y_pred=np.exp(booster.pred
 print('booster 训练集MSE:', rmse_train)
 print('booster 测试集MSE:', rmse_test)
 
-

@@ -75,3 +75,62 @@ x.fillna(0, inplace=True)
 y.fillna(0, inplace=True)
 print(x.head())
 print(y.head())
+print('--------------------')
+
+# 切分测试集和训练集
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3)
+# 多项式升维
+poly_features = PolynomialFeatures(degree=2, include_bias=False)
+x_train_poly = poly_features.fit_transform(x_train)
+x_test_poly = poly_features.fit_transform(x_test)
+
+# 线性回归
+reg = LinearRegression()
+reg.fit(x_train_poly, np.log1p(y_train))
+y_predict = reg.predict(x_test_poly)
+
+# 评估
+log_rmse_train = np.sqrt(mean_squared_error(y_true=np.log1p(y_train), y_pred=reg.predict(x_train_poly)))
+log_rmse_test = np.sqrt(mean_squared_error(y_true=np.log1p(y_test), y_pred=y_predict))
+print('LinearRegression log 训练集MSE:', log_rmse_train)
+print('LinearRegression log 测试集MSE:', log_rmse_test)
+# 注意区分上下两种的写法
+rmse_train = np.sqrt(mean_squared_error(y_true=y_train, y_pred=np.exp(reg.predict(x_train_poly))))
+rmse_test = np.sqrt(mean_squared_error(y_true=y_test, y_pred=np.exp(reg.predict(x_test_poly))))
+print('LinearRegression 训练集MSE:', rmse_train)
+print('LinearRegression 测试集MSE:', rmse_test)
+
+ridge = Ridge()   # Ridge 岭回归的归一化
+ridge.fit(x_train_poly, np.log1p(y_train))
+y_predict_ridge = ridge.predict(x_test_poly)
+
+
+print('*************************************')
+log_rmse_train = np.sqrt(mean_squared_error(y_true=np.log1p(y_train), y_pred=ridge.predict(x_train_poly)))
+log_rmse_test = np.sqrt(mean_squared_error(y_true=np.log1p(y_test), y_pred=y_predict_ridge))
+print('ridge log 训练集MSE:', log_rmse_train)
+print('ridge log 测试集MSE:', log_rmse_test)
+# 注意区分上下两种的写法
+rmse_train = np.sqrt(mean_squared_error(y_true=y_train, y_pred=np.exp(ridge.predict(x_train_poly))))
+rmse_test = np.sqrt(mean_squared_error(y_true=y_test, y_pred=np.exp(ridge.predict(x_test_poly))))
+print('ridge 训练集MSE:', rmse_train)
+print('ridge 测试集MSE:', rmse_test)
+
+
+booster = GradientBoostingRegressor()   # Ridge 岭回归的归一化
+booster.fit(x_train_poly, np.log1p(y_train))
+y_predict_booster = booster.predict(x_test_poly)
+
+
+print('*************************************')
+log_rmse_train = np.sqrt(mean_squared_error(y_true=np.log1p(y_train), y_pred=booster.predict(x_train_poly)))
+log_rmse_test = np.sqrt(mean_squared_error(y_true=np.log1p(y_test), y_pred=y_predict_booster))
+print('booster log 训练集MSE:', log_rmse_train)
+print('booster log 测试集MSE:', log_rmse_test)
+# 注意区分上下两种的写法
+rmse_train = np.sqrt(mean_squared_error(y_true=y_train, y_pred=np.exp(booster.predict(x_train_poly))))
+rmse_test = np.sqrt(mean_squared_error(y_true=y_test, y_pred=np.exp(booster.predict(x_test_poly))))
+print('booster 训练集MSE:', rmse_train)
+print('booster 测试集MSE:', rmse_test)
+
+

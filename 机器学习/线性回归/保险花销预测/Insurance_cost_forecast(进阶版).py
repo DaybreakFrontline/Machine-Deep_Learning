@@ -25,26 +25,26 @@ plt.show()
 plt.hist(np.log(data['charges']))
 plt.show()
 
-sns.kdeplot(data.loc[data.sex=='male', 'charges'], shade=True, label='male')
-sns.kdeplot(data.loc[data.sex=='female', 'charges'], shade=True, label='female')
+sns.kdeplot(data.loc[data.sex == 'male', 'charges'], shade=True, label='male')
+sns.kdeplot(data.loc[data.sex == 'female', 'charges'], shade=True, label='female')
 plt.show()
 
-sns.kdeplot(data.loc[data.region=='northwest', 'charges'], shade=True, label='northwest')
-sns.kdeplot(data.loc[data.region=='southwest', 'charges'], shade=True, label='southwest')
-sns.kdeplot(data.loc[data.region=='northeast', 'charges'], shade=True, label='northeast')
-sns.kdeplot(data.loc[data.region=='southeast', 'charges'], shade=True, label='southeast')
+sns.kdeplot(data.loc[data.region == 'northwest', 'charges'], shade=True, label='northwest')
+sns.kdeplot(data.loc[data.region == 'southwest', 'charges'], shade=True, label='southwest')
+sns.kdeplot(data.loc[data.region == 'northeast', 'charges'], shade=True, label='northeast')
+sns.kdeplot(data.loc[data.region == 'southeast', 'charges'], shade=True, label='southeast')
 plt.show()
 
-sns.kdeplot(data.loc[data.smoker=='yes', 'charges'], shade=True, label='smoker yes')
-sns.kdeplot(data.loc[data.smoker=='no', 'charges'], shade=True, label='smoker no')
+sns.kdeplot(data.loc[data.smoker == 'yes', 'charges'], shade=True, label='smoker yes')
+sns.kdeplot(data.loc[data.smoker == 'no', 'charges'], shade=True, label='smoker no')
 plt.show()
 
-sns.kdeplot(data.loc[data.children==0, 'charges'], shade=True, label='children 0')
-sns.kdeplot(data.loc[data.children==1, 'charges'], shade=True, label='children 1')
-sns.kdeplot(data.loc[data.children==2, 'charges'], shade=True, label='children 2')
-sns.kdeplot(data.loc[data.children==3, 'charges'], shade=True, label='children 3')
-sns.kdeplot(data.loc[data.children==4, 'charges'], shade=True, label='children 4')
-sns.kdeplot(data.loc[data.children==5, 'charges'], shade=True, label='children 5')
+sns.kdeplot(data.loc[data.children == 0, 'charges'], shade=True, label='children 0')
+sns.kdeplot(data.loc[data.children == 1, 'charges'], shade=True, label='children 1')
+sns.kdeplot(data.loc[data.children == 2, 'charges'], shade=True, label='children 2')
+sns.kdeplot(data.loc[data.children == 3, 'charges'], shade=True, label='children 3')
+sns.kdeplot(data.loc[data.children == 4, 'charges'], shade=True, label='children 4')
+sns.kdeplot(data.loc[data.children == 5, 'charges'], shade=True, label='children 5')
 plt.show()
 
 # 我们发现其实 性别对于最终的结果没有什么影响，因为根据性别的图像来看，性别男女的曲线基本相似，所以可以去掉
@@ -100,10 +100,9 @@ rmse_test = np.sqrt(mean_squared_error(y_true=y_test, y_pred=np.exp(reg.predict(
 print('LinearRegression 训练集MSE:', rmse_train)
 print('LinearRegression 测试集MSE:', rmse_test)
 
-ridge = Ridge()   # Ridge 岭回归的归一化
+ridge = Ridge()  # Ridge 岭回归的归一化
 ridge.fit(x_train_poly, np.log1p(y_train))
 y_predict_ridge = ridge.predict(x_test_poly)
-
 
 print('*************************************')
 log_rmse_train = np.sqrt(mean_squared_error(y_true=np.log1p(y_train), y_pred=ridge.predict(x_train_poly)))
@@ -116,11 +115,9 @@ rmse_test = np.sqrt(mean_squared_error(y_true=y_test, y_pred=np.exp(ridge.predic
 print('ridge 训练集MSE:', rmse_train)
 print('ridge 测试集MSE:', rmse_test)
 
-
-booster = GradientBoostingRegressor()   # Ridge 岭回归的归一化
+booster = GradientBoostingRegressor()  # Ridge 岭回归的归一化
 booster.fit(x_train_poly, np.log1p(y_train))
 y_predict_booster = booster.predict(x_test_poly)
-
 
 print('*************************************')
 log_rmse_train = np.sqrt(mean_squared_error(y_true=np.log1p(y_train), y_pred=booster.predict(x_train_poly)))
@@ -132,5 +129,3 @@ rmse_train = np.sqrt(mean_squared_error(y_true=y_train, y_pred=np.exp(booster.pr
 rmse_test = np.sqrt(mean_squared_error(y_true=y_test, y_pred=np.exp(booster.predict(x_test_poly))))
 print('booster 训练集MSE:', rmse_train)
 print('booster 测试集MSE:', rmse_test)
-
-

@@ -12,7 +12,7 @@ print(y.shape)
 # max_iter=2000 最大迭代次数 , tol=1e-4 忍受度，最近两次loss的差值小于这个数就可以停止迭代。在sklearn中，是连续10次
 # 是否要把迭代信息打印出来 verbose=True,
 # hidden_layer_sizes=(5, 2) 隐藏层是个二元组，Hidden共2层，第一层五个神经元，第二层2个神经元(隐藏节点)
-# 这个地方默认是有截距项的。
+# 这个地方默认是有截距项的。 shuffle=Ture 样本进来的时候，用不用打乱顺序
 clf = MLPClassifier(solver='sgd', alpha=1e-5, activation='relu',
                     hidden_layer_sizes=(5, 2), max_iter=2000, tol=1e-4, verbose=True)
 

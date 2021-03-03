@@ -1,13 +1,8 @@
 import tensorflow._api.v2.compat.v1 as tf   # 将TensorFlow2.0转换为1.0
 tf.disable_v2_behavior()
-tf.compat.v1.nn.rnn_cell.LSTMCell(state_is_tuple=True)
 
+# slim = tf.contrib.slim tf2.0后,已经将contrib移除
 import tf_slim as slim
-#slim = slim.contrib.slim   2.0已经废弃
-
-from tensorflow.contrib.layers.python.layers import utils
-
-
 
 
 def vgg_arg_scope(weight_decay=0.0005):
@@ -52,7 +47,7 @@ def vgg_16(inputs,
                               normalizer_fn=None,
                               scope='fc8')
             # Convert end_points_collection into a end_point dict.
-            end_points = slim.utils.convert_collection_to_dict(end_points_collection)
+            end_points = slim.layers.utils.convert_collection_to_dict(end_points_collection)
 
             if spatial_squeeze:
                 net = tf.squeeze(net, [1, 2], name='fc8/squeezed')

@@ -13,7 +13,8 @@ import os
 import time
 import tf_slim as slim
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"     # 使用第一, 二块GPU
 
 # 构建损失网络
 # tensorboard --logdir='style_transfer\models\wave'

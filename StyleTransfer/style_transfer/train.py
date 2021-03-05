@@ -12,11 +12,12 @@ from StyleTransfer.style_transfer import losses
 import os
 import time
 import tf_slim as slim
-# slim = tf.contrib.slim
-
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 # 构建损失网络
 # tensorboard --logdir='style_transfer\models\wave'
+
 
 # 对图片做预处理
 def get_preprocessing(name, is_training=False):

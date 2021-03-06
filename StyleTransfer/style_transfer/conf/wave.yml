@@ -8,7 +8,7 @@ content_weight: 1.0  # 内容损失的权重
 style_weight: 220.0  # 风格损失的权重
 
 image_size: 256  # 训练原始图片的大小
-batch_size: 7  # 一次batch的样本数
+batch_size: 5  # 一次batch的样本数
 epoch: 2  #
 
 # 损失函数

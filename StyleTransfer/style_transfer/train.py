@@ -226,10 +226,6 @@ def main(FLAGS):
                         writer.flush()
                     if step % 1000 == 0:
                         saver.save(sess, os.path.join(training_path, 'fast-style-model.ckpt'), global_step=step)
-                    if step % 10000 == 0:
-                        sed_time = time.time() - start_time
-                        start_time = time.time()
-                        tf.logging.info('step: %d, total Loss %f, 一万次耗时: %f' % (step, loss_t, sed_time))
             except tf.errors.OutOfRangeError:
                 saver.save(sess, os.path.join(training_path, 'fast-style-model.ckpt-done'))
                 tf.logging.info('Done training -- epoch limit reached')

@@ -4,7 +4,7 @@ import math
 
 # 此处的模型实际可以抽象为：用一个单词预测另一个单词，在输出时，不使用softmax损失，而使用NCE损失，
 # 即再选取一些"噪声词"，作为负样本进行两类分类
-# 建立模型
+# 建立模型   修改
 
 def generate_graph(vocabulary_size, valid_examples):
     batch_size = 128

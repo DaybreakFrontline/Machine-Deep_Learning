@@ -20,3 +20,4 @@ print('=============================')
 [print(x) for x in local_device_protos if x.device_type == 'GPU']
 
 print(tf.config.list_physical_devices('GPU'))
+

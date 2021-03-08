@@ -13,7 +13,7 @@ f = x*x*y + y + 2
 
 init = tf.global_variables_initializer()
 
-# 另外一种创建session的方法  （TensorFlow v1.0）
+# 另外一种创建session的方法  （03_TensorFlow v1.0）
 sess = tf.InteractiveSession()
 init.run()
 result = f.eval()

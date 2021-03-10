@@ -6,7 +6,7 @@ model_path: models  # checkpoint和events文件保存的根目录。最后所有的checkpoint和
 
 # 各个损失的权值
 content_weight: 1.0  # 内容损失的权重
-style_weight: 190.0  # 内容损失的权重
+style_weight: 220.0  # 内容损失的权重
 # style_weight: 220.0  # 风格损失的权重
 
 image_size: 512  # 训练原始图片的大小

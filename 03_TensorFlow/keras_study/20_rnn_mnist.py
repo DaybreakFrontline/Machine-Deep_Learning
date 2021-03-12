@@ -1,6 +1,5 @@
-import tensorflow as tf
+import tensorflow._api.v2.compat.v1 as tf
 from tensorflow.examples.tutorials.mnist import input_data
-
 import matplotlib.pyplot as plt
 
 # 读取mnist数据集，one_hot=True将y列编码为维度10分类的0，1编码

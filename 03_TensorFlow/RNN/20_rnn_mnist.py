@@ -9,7 +9,7 @@ config = tf.ConfigProto()
 config.gpu_options.per_process_gpu_memory_fraction = 0.9  # 占用80%显存
 
 # 读取mnist数据集，one_hot=True将y列编码为维度10分类的0，1编码
-mnist = input_data.read_data_sets('MNIST_data_bak', one_hot=True)
+mnist = input_data.read_data_sets('../Keras_study/MNIST_data_bak', one_hot=True)
 # 打印输出训练集的形状(55000, 784)
 print(mnist.train.images.shape)
 

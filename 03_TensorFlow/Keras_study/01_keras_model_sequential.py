@@ -2,7 +2,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.layers import Activation
 
-# 使用keras来搭建神经网络
+# 使用keras来搭建神经网络    第一种
 
 # 序列模型
 # 序列模型属于通用模型的一种，因为很常见，所以这里单独列出来进行介绍

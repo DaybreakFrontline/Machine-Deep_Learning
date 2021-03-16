@@ -70,10 +70,15 @@ model.add(Flatten())
 model.add(Dense(128, activation='relu'))
 model.add(Dense(64, activation='relu'))
 model.add(Dense(32, activation='relu'))
-model.add(Dense(16, activation='softmax'))
+model.add(Dense(10, activation='softmax'))
 
 # 定义损失函数，一般来说分类问题的损失函数都选择用交叉熵
 model.compile(loss='categorical_crossentropy', optimizer='adagrad', metrics=['accuracy'])
+
+print(X_train.shape)
+print(y_train_oh.shape)
+print(X_test.shape)
+print(y_test_oh.shape)
 
 # 放入批量样本，进行训练
 model.fit(X_train, y_train_oh, validation_data=(X_test, y_test_oh), epochs=20, batch_size=128)

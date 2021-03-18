@@ -25,3 +25,9 @@ print(np.mean(avg_len))
 # 为了直观显示，这里画一个分布图
 plt.hist(avg_len, bins=range(min(avg_len), max(avg_len) + 100, 10))
 plt.show()
+
+# 第一、文字分词。 英语分词按照空格分词，中文分词可以参考jieba分词器
+# 第二、建立字典。 建立字典，给每个词语标号
+# 第三、把段落按字典翻译成数字，变成一个array
+# last、开始建模
+

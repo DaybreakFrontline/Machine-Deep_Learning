@@ -21,6 +21,7 @@ vocab_size = np.max([np.max(X_train[i]) for i in range(X_train.shape[0])]) + 1
 print("vocab_size:", vocab_size)
 
 # no Flatten    时刻没有定义
+'''
 model = Sequential()
 model.add(Embedding(vocab_size, 64, input_length=max_word))
 model.add(LSTM(128, return_sequences=True))     # return_sequences 往上传三维数组
@@ -32,24 +33,27 @@ model.add(Dropout(0.2))
 model.add(LSTM(16))                             # 往上传二维数组
 model.add(Dropout(0.1))
 model.add(Dense(1, activation='sigmoid'))
-
+# epochs=20, batch_size=50  accuracy: 0.8475
 '''
+
 model = Sequential()
 model.add(Embedding(vocab_size, 64, input_length=max_word))
 model.add(LSTM(128, return_sequences=True))     # return_sequences 往上传三维数组
 model.add(Dropout(0.2))
 model.add(LSTM(64, return_sequences=True))
 model.add(Dropout(0.2))
-model.add(LSTM(32)
+model.add(LSTM(32))
 model.add(Dropout(0.2))                         # 往上传二维数组
 model.add(Dense(1, activation='sigmoid'))
-'''
+# epochs=20, batch_size=50  accuracy: 0.8558
+# epochs=40, batch_size=50  accuracy: 0.8517
 
+# compile v. 编译     optimizer n. 优化器     metrics n. 衡量指标     accuracy n. 准确(性)
 model.compile(loss='binary_crossentropy', optimizer='rmsprop', metrics=['accuracy'])
 print(model.summary())
 
 # 导入数据，训练模型     validation_data 验证数据
-model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=20, batch_size=50, verbose=1)
+model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=40, batch_size=50, verbose=1)
 # evaluate .v 	评估、估计
 score = model.evaluate(X_test, y_test)
 print(score)

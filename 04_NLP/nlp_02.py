@@ -9,6 +9,8 @@ from tensorflow.keras.layers import Embedding           # 嵌入层
 from tensorflow.keras.preprocessing import sequence     # keras里边的预处理，截断
 import numpy as np
 from tensorflow.keras.datasets import imdb
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"     # 使用第一, 二块GPU
 
 (X_train, y_train), (X_test, y_test) = imdb.load_data()
 # 使用下面的命令计算最长的文本长度
@@ -43,6 +45,7 @@ model.add(Flatten())
 model.add(Dense(500, activation='relu'))    # Dense adj. 稠密的 全连接层
 model.add(Dense(100, activation='relu'))
 model.add(Dense(1, activation='sigmoid'))
+# epochs=20, batch_size=50  accuracy: 0.8577
 
 # compile v. 编译     optimizer n. 优化器     metrics n. 衡量指标     accuracy n. 准确(性)
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])

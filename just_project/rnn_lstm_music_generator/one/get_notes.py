@@ -6,14 +6,15 @@ from music21 import converter, instrument, note, chord
 
 def get_notes():
     # 读取所有midi文件
-    if not os.path.exists("K://music_midi"):
+    if not os.path.exists("K:\music_midi"):
         raise Exception("包含所有 MIDI 文件的 music_midi 文件夹不在此目录下，请添加")
 
     notes = []
     count = 0
     # glob : 匹配所有符合条件的文件，并以 List 的形式返回
     # glob模块是最简单的模块之一，内容非常少。用它可以查找符合特定规则的文件路径名。
-    for midi_file in glob.glob("K://music_midi//*.mid"):
+    for midi_file in glob.glob("K:\music_midi\*.mid"):
+        print(midi_file)
         # music21.converter.parse方法
         stream = converter.parse(midi_file)
 

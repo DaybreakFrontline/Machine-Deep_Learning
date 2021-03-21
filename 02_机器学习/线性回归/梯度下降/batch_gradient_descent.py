@@ -7,7 +7,7 @@ y = 9 + 3 * X + np.random.randn(100, 1)
 X_b = np.c_[np.ones((100, 1)), X]   # 添加x0
 
 # 创建超参数
-# learning_rate = 0.01    # 学习率   # 改为动态，去掉
+# learning_rate = 0.one    # 学习率   # 改为动态，去掉
 n_iterations = 10000    # 迭代次数
 
 # 引用两个超参数

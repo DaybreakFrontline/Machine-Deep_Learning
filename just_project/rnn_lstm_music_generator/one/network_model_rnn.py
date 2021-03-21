@@ -1,5 +1,6 @@
 # 构建RNN-LSTM 循环长短时神经网络
 import tensorflow as tf
+import numpy as np
 from tensorflow.keras.layers import LSTM
 from tensorflow.keras.layers import Dropout
 from tensorflow.keras.layers import Dense

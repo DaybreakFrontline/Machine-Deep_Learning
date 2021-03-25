@@ -1,6 +1,6 @@
 import collections
 import numpy as np
-import tensorflow as tf
+import tensorflow._api.v2.compat.v1 as tf
 
 # 数据预处理 ================================================
 
@@ -62,5 +62,54 @@ print(word_num_map)
 to_num= lambda word: word_num_map.get(word, len(words))
 poetrys_vector = [list(map(to_num, poetry)) for poetry in poetrys]
 
+# 每次取256首诗进行训练
+batch_size = 256
+# 计算多少次可以把古诗学完  向下取整
+n_chunk = len(poetrys_vector) // batch_size
+# 准备数据
+x_batches = []
+y_batches = []
+for i in range(n_chunk):
+    start_index = i * batch_size    # 开始的时候 i = 0   start_index = 0
+    end_index = start_index + batch_size    # 0 - batch_size 就是 0 - 256
+    # 每次取256首诗
+    batches = poetrys_vector[start_index:end_index]
+    # 计算256首诗中最长的长度
+    length = max(map(len, length))
+    # 创建全部为空格的索引号的矩阵    batch_size行 length列，
+    xdata = np.full((batch_size, length), word_num_map[' '], np.int32)
+    # 把每首诗的向量填入
+    for row in range(batch_size):
+        xdata[row, :len(batches[row])] = batches[row]
+    ydata = np.copy(xdata)
+    ydata[:, :-1] = xdata[:, 1:]
+
+    # xdata             ydata
+    # [6,2,4,6,9]     [2,4,6,9,9]
+    # [1,4,2,8,5]     [4,2,8,5,5]
+
+    x_batches.append(xdata)
+    y_batches.append(ydata)
+
+# -----------------------------------  RNN  -----------------------------
+input_data = tf.placeholder(tf.int32, [batch_size, None])
+output_targets = tf.placeholder(tf.int32, [batch_size, None])
+
+
+# 定义RNN 默认model='lstm'
+def neural_network(model='lstm', rnn_size=128, num_layer=2):
+    if model == 'rnn':
+        cell_fun = tf.nn.rnn_cell.BasicRNNCell
+    elif model == 'gru':
+        cell_fun = tf.nn.rnn_cell.GRUCell       # 比LSTMCell结构再简单一些，效率更高一些，只有一点点
+    elif model == 'lstm':
+        cell_fun = tf.nn.rnn_cell.BasicLSTMCell
+    # 这时候才是调用对应的类，创建实例，上边接的不是实例、 rnn_size:隐藏神经元个数、 state_is_tuple=Ture 隐藏层结果放在tuple返回
+    cell = cell_fun(rnn_size, state_is_tuple=True)
+
+    # 单个节点里面神经网络有两层，堆叠的，相当于网络层更深、 [cell] * num_layer 放入的元素X2、 【10】* 2 = 【10, 10】
+    cell = tf.nn.rnn_cell.MultiRNNCell([cell] * num_layer, state_is_tuple=True)     # [cell, cell] 传给 MultiRNNCell
+
+    initial_state = cell.zero_state(batch_size, tf.float32) # 全部初始化为0
 
 

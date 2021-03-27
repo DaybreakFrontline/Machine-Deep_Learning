@@ -110,6 +110,27 @@ def neural_network(model='lstm', rnn_size=128, num_layer=2):
     # 单个节点里面神经网络有两层，堆叠的，相当于网络层更深、 [cell] * num_layer 放入的元素X2、 【10】* 2 = 【10, 10】
     cell = tf.nn.rnn_cell.MultiRNNCell([cell] * num_layer, state_is_tuple=True)     # [cell, cell] 传给 MultiRNNCell
 
-    initial_state = cell.zero_state(batch_size, tf.float32) # 全部初始化为0
+    initial_state = cell.zero_state(batch_size, tf.float32)     # 全部初始化为0
 
+    with tf.variable_scope('rnnlm'):
+        # len(words) + 加一的原因是句子向量里边有一个不在所有词里边的默认值
+        # 构建Cell单元输出得结果到输出出Y得W和b得矩阵
+        softmax_w = tf.get_variable("softmax_w", [rnn_size, len(words) + 1])
+        softmax_b = tf.get_variable("softmax_b", [len(words) + 1])
+        # 是来构建X输入到Cell之间得变化，说白了就是把X变成X_in交给RNN Cell单元
+        with tf.device("/cpu:0"):
+            embedding = tf.get_variable("embedding", [len(words) + 1], rnn_size)
+            # 相当于每个词进行oneHot编码转换成稠密的向量
+            inputs = tf.nn.embedding_lookup(embedding, input_data)  # input_data  batchSize行， length列
+            # inputs
+
+    # 下面一行是来构建RNN网络拓扑结构
+    # 如果是True, outputs的维度是[steps, batch_size, depth]
+    outputs, last_state = tf.nn.dynamic_rnn(cell, inputs, initial_state=initial_state, scope='rnnlm')
+    # reshape之后的形状是 (steps * batch_size, 128)
+    output = tf.reshape(outputs, [-1, rnn_size])
+    # 计算从Cell单元输出的结果到输出层Y的结果
+    logits = tf.matmul(output, softmax_w) + softmax_b
+    probs = tf.nn.softmax(logits)
+    return logits, last_state, probs, cell, initial_state
 

@@ -1,6 +1,8 @@
 import collections
 import numpy as np
 import tensorflow._api.v2.compat.v1 as tf
+import tf_slim as ts
+tf.disable_v2_behavior()
 
 # 数据预处理 ================================================
 
@@ -133,4 +135,42 @@ def neural_network(model='lstm', rnn_size=128, num_layer=2):
     logits = tf.matmul(output, softmax_w) + softmax_b
     probs = tf.nn.softmax(logits)
     return logits, last_state, probs, cell, initial_state
+
+
+# 训练
+def train_neural_network():
+    logits, last_state, _, _, _ = neural_network()
+    targets = tf.reshape(output_targets, [-1])
+    loss = tf.contrib.legacy_seq2seq.sequence_loss_by_example([logits], [targets], [tf.ones_like(targets, dtype=tf.float32)])
+
+    cost = tf.reduce_mean(loss)
+    learning_rate = tf.Variable(0.0, trainable=False)
+    tvars = tf.trainable_variables()
+    # Gradient Clipping的引入是为了处理gradient explosion或者gradients vanishing的问题。当在一次迭代中权重的更新过于迅猛的话，
+    # 很容易导致loss divergence。Gradient Clipping的直观作用就是让权重的更新限制在一个合适的范围。
+    # clip_norm是截取的比率, 这个函数返回截取过的梯度张量
+    # minimize() = compute_gradients() + apply_gradients()
+    # 这里相当于将计算梯度和更新梯度变成两部分来做
+    grads, _ = tf.clip_by_global_norm(tf.gradients(cost, tvars), 5)
+    optimizer = tf.train.AdamOptimizer(learning_rate)
+    train_op = optimizer.apply_gradients(zip(grads, tvars))
+
+    with tf.Session() as sess:
+        sess.run(tf.global_variables_initializer())
+
+        saver = tf.train.Saver(tf.global_variables())
+
+        for epoch in range(50):
+            sess.run(tf.assign(learning_rate, 0.002 * (0.97 ** epoch)))
+            n = 0
+            for batch in range(n_chunk):
+                train_loss, _ = sess.run([cost, train_op],
+                                         feed_dict={input_data: x_batches[n], output_targets: y_batches[n]})
+                n += 1
+                print(epoch, batch, train_loss)
+            if epoch % 7 == 0:
+                saver.save(sess, './poetry.module', global_step=epoch)
+
+
+train_neural_network()
 
